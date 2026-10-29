@@ -11,15 +11,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-/* ============ CORES E BASE (troque aqui se quiser) ============ */
+/* ============ CORES E BASE ============ */
 :root{
-  --bg:#faf8f5;          /* fundo geral */
-  --surface:#ffffff;     /* cartões */
-  --ink:#2b2724;         /* texto escuro */
-  --muted:#7d756d;       /* texto cinza */
-  --accent:#a8825c;      /* dourado/caramelo */
+  --bg:#faf8f5;
+  --surface:#ffffff;
+  --ink:#2b2724;
+  --muted:#7d756d;
+  --accent:#a8825c;
   --accent-dark:#8c6a48;
-  --line:#e8e2da;        /* linhas */
+  --line:#e8e2da;
   --radius:16px;
   --max:1180px;
 }
@@ -34,7 +34,7 @@ h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;line-hei
 p{margin:0}
 img{max-width:100%}
 .container{width:min(var(--max),100% - 48px);margin-inline:auto}
-section{padding:96px 0}
+section{padding:96px 0;scroll-margin-top:80px}
 .eyebrow{
   font-size:.75rem;letter-spacing:.24em;text-transform:uppercase;
   color:var(--accent);margin-bottom:16px;font-weight:500;
@@ -57,37 +57,107 @@ section{padding:96px 0}
 .btn-whats{background:#25d366;color:#fff}
 .btn-whats:hover{background:#1eb457}
 
-/* ============ HEADER ============ */
+/* ============ HEADER (transparente sobre o hero) ============ */
 .header{
-  position:sticky;top:0;z-index:60;
-  background:rgba(250,248,245,.88);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  color:#fff;
+  background:transparent;
+  border-bottom:1px solid transparent;
+  transition:background .35s ease, border-color .35s ease, color .35s ease, backdrop-filter .35s ease;
 }
-.header-inner{display:flex;align-items:center;justify-content:space-between;height:76px}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;letter-spacing:.02em;text-decoration:none;color:var(--ink)}
+.header.scrolled{
+  color:var(--ink);
+  background:rgba(250,248,245,.94);
+  backdrop-filter:blur(14px);
+  border-bottom-color:var(--line);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:80px}
+.logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;
+  letter-spacing:.02em;text-decoration:none;color:inherit;
+}
 .logo span{color:var(--accent)}
 .nav{display:flex;gap:34px}
 .nav a{
-  color:var(--ink);text-decoration:none;font-size:.88rem;letter-spacing:.04em;
-  position:relative;padding:4px 0;
+  color:inherit;text-decoration:none;font-size:.88rem;letter-spacing:.04em;
+  position:relative;padding:4px 0;transition:opacity .2s;
 }
 .nav a::after{
   content:'';position:absolute;left:0;bottom:0;height:1px;width:0;
-  background:var(--accent);transition:width .3s ease;
+  background:currentColor;transition:width .3s ease;
 }
 .nav a:hover::after{width:100%}
-.menu-btn{display:none;background:none;border:0;cursor:pointer;padding:8px}
-.menu-btn span{display:block;width:24px;height:1.5px;background:var(--ink);margin:5px 0;transition:.3s}
+.menu-btn{
+  display:none;background:none;border:0;cursor:pointer;padding:8px;color:inherit;
+}
+.menu-btn span{display:block;width:24px;height:1.5px;background:currentColor;margin:5px 0;transition:.3s}
 
-/* ============ HERO ============ */
-.hero{padding:88px 0 96px}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
-.hero h1{font-size:clamp(2.6rem,5vw,4.1rem);margin-bottom:24px}
-.hero h1 em{font-style:italic;color:var(--accent)}
-.hero p{color:var(--muted);font-size:1.05rem;max-width:44ch;margin-bottom:36px}
+/* ============ HERO COM FOTO DE FUNDO ============ */
+.hero{
+  position:relative;
+  min-height:100vh;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  padding:130px 0 110px;
+  color:#fff;
+  overflow:hidden;
+  background-color:#2b2724;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('img/hero.jpg') center/cover no-repeat;
+  transform:scale(1.03);
+  transition:transform 8s ease;
+}
+.hero:hover .hero-bg{transform:scale(1.06)}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,
+    rgba(25,21,18,.78) 0%,
+    rgba(25,21,18,.50) 50%,
+    rgba(25,21,18,.75) 100%);
+}
+.hero .container{position:relative;z-index:1;width:min(var(--max),100% - 48px);margin-inline:auto}
+.hero-content{max-width:720px}
+.hero .eyebrow{color:#e4c9a6}
+.hero h1{
+  font-size:clamp(2.6rem,6.2vw,4.8rem);
+  line-height:1.02;
+  margin-bottom:26px;
+  color:#fff;
+  text-shadow:0 2px 30px rgba(0,0,0,.25);
+}
+.hero h1 em{font-style:italic;color:#e4c9a6}
+.hero p{
+  color:rgba(255,255,255,.88);
+  font-size:clamp(1rem,1.4vw,1.15rem);
+  max-width:52ch;line-height:1.75;
+  margin-bottom:40px;
+}
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hero-actions .btn-primary{background:#fff;color:var(--ink)}
+.hero-actions .btn-primary:hover{background:#e4c9a6;color:var(--ink)}
+.hero-actions .btn-ghost{border-color:rgba(255,255,255,.55);color:#fff}
+.hero-actions .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.1);color:#fff}
 
-/* ============ MOLDURA DE FOTO ============ */
+/* dica de rolagem */
+.scroll-hint{
+  position:absolute;bottom:26px;left:50%;z-index:1;
+  transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(255,255,255,.75);
+  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
+  animation:float 2.6s ease-in-out infinite;
+  pointer-events:none;
+}
+.scroll-hint::after{
+  content:'';width:1px;height:36px;
+  background:linear-gradient(rgba(255,255,255,.7), transparent);
+}
+@keyframes float{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* ============ MOLDURA DE FOTO (resto do site) ============ */
 .frame{
   position:relative;overflow:hidden;border-radius:var(--radius);
   background:linear-gradient(135deg,#efeae3,#e3dbd1);
@@ -98,7 +168,6 @@ section{padding:96px 0}
   color:#b0a597;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
   padding:20px;
 }
-.hero .frame{aspect-ratio:4/5}
 
 /* ============ SOBRE ============ */
 .sobre{background:var(--surface);border-block:1px solid var(--line)}
@@ -222,25 +291,29 @@ section{padding:96px 0}
 /* ============ RESPONSIVO ============ */
 @media(max-width:900px){
   section{padding:70px 0}
-  .hero{padding:56px 0 70px}
-  .hero-grid,.sobre-grid,.contato-grid{grid-template-columns:1fr;gap:40px}
-  .hero .frame{aspect-ratio:4/3;order:-1}
+  .sobre-grid,.contato-grid{grid-template-columns:1fr;gap:40px}
   .sobre .frame{aspect-ratio:4/3}
   .footer-grid{grid-template-columns:1fr;gap:36px}
   .modal-box{grid-template-columns:1fr}
   .modal-box .frame{aspect-ratio:4/3}
   .modal-info{padding:32px 26px}
 
+  .header-inner{height:70px}
   .menu-btn{display:block}
   .nav{
-    position:absolute;top:76px;left:0;right:0;background:var(--bg);
+    position:absolute;top:70px;left:0;right:0;
+    background:rgba(250,248,245,.98);backdrop-filter:blur(14px);
     flex-direction:column;gap:0;padding:8px 24px 20px;
     border-bottom:1px solid var(--line);
-    display:none;
+    display:none;color:var(--ink);
   }
   .nav.aberto{display:flex}
-  .nav a{padding:14px 0;border-bottom:1px solid var(--line);font-size:.95rem}
+  .nav a{padding:14px 0;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--ink)}
   .nav a:last-child{border-bottom:0}
+
+  .hero{padding:120px 0 90px;min-height:92vh;min-height:92svh}
+  .hero h1{font-size:clamp(2.2rem,8vw,3.2rem)}
+  .scroll-hint{display:none}
 }
 @media(max-width:520px){
   .grid{grid-template-columns:1fr 1fr;gap:14px}
@@ -256,9 +329,8 @@ section{padding:96px 0}
 <body>
 
 <!-- ==================== HEADER ==================== -->
-<header class="header">
+<header class="header" id="header">
   <div class="container header-inner">
-    <!-- TROQUE O NOME AQUI -->
     <a href="#" class="logo">Nome da <span>Empresa</span></a>
 
     <nav class="nav" id="nav">
@@ -275,10 +347,11 @@ section{padding:96px 0}
   </div>
 </header>
 
-<!-- ==================== HERO ==================== -->
+<!-- ==================== HERO (FOTO DE FUNDO) ==================== -->
 <section class="hero" id="inicio">
-  <div class="container hero-grid">
-    <div>
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-content">
       <div class="eyebrow">Arapongas · Paraná</div>
       <h1>Estofados feitos com <em>cuidado</em>, do início ao fim.</h1>
       <p>Fabricação sob medida, venda e reforma de sofás, poltronas, pufes e cabeceiras. Conforto e acabamento que duram anos.</p>
@@ -287,12 +360,8 @@ section{padding:96px 0}
         <a href="#contato" class="btn btn-ghost">Pedir orçamento</a>
       </div>
     </div>
-    <div class="frame">
-      <!-- Troque por: img/hero.jpg -->
-      <img src="img/hero.jpg" alt="Sofá fabricado pela empresa" onerror="this.remove()">
-      <span class="ph">Foto principal</span>
-    </div>
   </div>
+  <div class="scroll-hint">Role para ver mais</div>
 </section>
 
 <!-- ==================== SOBRE ==================== -->
@@ -484,68 +553,44 @@ section{padding:96px 0}
 const WHATSAPP = "5544999999999"; // DDI 55 + DDD + número (só números)
 
 /* ============================================================
-   2) PRODUTOS — copie um bloco { } e edite para adicionar mais
+   2) PRODUTOS
    categoria: sofas | poltronas | pufes | cabeceiras | reforma
    ============================================================ */
 const produtos = [
   {
-    id: 1,
-    nome: "Sofá Retrátil 3 Lugares",
-    categoria: "sofas",
+    id: 1, nome: "Sofá Retrátil 3 Lugares", categoria: "sofas",
     descricao: "Sofá retrátil e reclinável em tecido suede, espuma D33 e pés em madeira maciça. Disponível em várias cores.",
-    preco: 2890,
-    aPartir: false,
-    tag: "Mais vendido",
+    preco: 2890, aPartir: false, tag: "Mais vendido",
     imagem: "img/sofa-retratil.jpg"
   },
   {
-    id: 2,
-    nome: "Sofá 2 Lugares em Linho",
-    categoria: "sofas",
+    id: 2, nome: "Sofá 2 Lugares em Linho", categoria: "sofas",
     descricao: "Sofá compacto em linho, ideal para salas pequenas. Estrutura em madeira de eucalipto.",
-    preco: 1890,
-    aPartir: false,
-    tag: "",
+    preco: 1890, aPartir: false, tag: "",
     imagem: "img/sofa-2lugares.jpg"
   },
   {
-    id: 3,
-    nome: "Poltrona Decorativa",
-    categoria: "poltronas",
+    id: 3, nome: "Poltrona Decorativa", categoria: "poltronas",
     descricao: "Poltrona com pés palito e assento acolchoado. Perfeita para cantos de leitura e quartos.",
-    preco: 890,
-    aPartir: true,
-    tag: "",
+    preco: 890, aPartir: true, tag: "",
     imagem: "img/poltrona.jpg"
   },
   {
-    id: 4,
-    nome: "Pufe Redondo",
-    categoria: "pufes",
+    id: 4, nome: "Pufe Redondo", categoria: "pufes",
     descricao: "Pufe redondo estofado, 50cm de diâmetro. Tecido e cor à sua escolha.",
-    preco: 390,
-    aPartir: true,
-    tag: "",
+    preco: 390, aPartir: true, tag: "",
     imagem: "img/pufe.jpg"
   },
   {
-    id: 5,
-    nome: "Cabeceira Queen Estofada",
-    categoria: "cabeceiras",
+    id: 5, nome: "Cabeceira Queen Estofada", categoria: "cabeceiras",
     descricao: "Cabeceira estofada com botões, altura 1,20m. Diversos tecidos disponíveis.",
-    preco: 750,
-    aPartir: true,
-    tag: "Sob medida",
+    preco: 750, aPartir: true, tag: "Sob medida",
     imagem: "img/cabeceira.jpg"
   },
   {
-    id: 6,
-    nome: "Reforma Completa de Sofá",
-    categoria: "reforma",
+    id: 6, nome: "Reforma Completa de Sofá", categoria: "reforma",
     descricao: "Reforma com troca de espuma, tecido e revisão da estrutura. O sofá volta como novo.",
-    preco: 650,
-    aPartir: true,
-    tag: "Serviço",
+    preco: 650, aPartir: true, tag: "Serviço",
     imagem: "img/reforma.jpg"
   }
 ];
@@ -658,6 +703,15 @@ const menuBtn = document.getElementById('menuBtn');
 const nav = document.getElementById('nav');
 menuBtn.addEventListener('click', () => nav.classList.toggle('aberto'));
 nav.addEventListener('click', e => { if(e.target.tagName === 'A') nav.classList.remove('aberto'); });
+
+/* ---------- Header muda de cor ao rolar ---------- */
+const header = document.getElementById('header');
+function atualizarHeader(){
+  if(window.scrollY > 40) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+}
+window.addEventListener('scroll', atualizarHeader, { passive:true });
+atualizarHeader();
 
 /* ---------- Formulário -> WhatsApp ---------- */
 document.getElementById('formOrcamento').addEventListener('submit', e => {
